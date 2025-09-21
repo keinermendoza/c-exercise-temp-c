@@ -1,16 +1,20 @@
 #include <stdio.h>
 
-#define TEMPERATURAS_A_AVALIAR 7
+#define MAX_TEMPERATURAS_A_AVALIAR 30
 
 short achar_temperatura_maxima(
-    int temperaturas[TEMPERATURAS_A_AVALIAR],
+    int temperaturas[MAX_TEMPERATURAS_A_AVALIAR],
+    int temperaturas_a_avaliar,
     int *dia_da_temperatura_maxima,
     int *temperatura_maxima_na_semana,
     int *temperatura_minima_na_semana
 );
 
+void determinar_quantas_temperaturas(int *temperaturas_a_avaliar);
+
 void exibir_grafico_de_linhas(
-    int temperaturas[TEMPERATURAS_A_AVALIAR],
+    int temperaturas[MAX_TEMPERATURAS_A_AVALIAR],
+    int temperaturas_a_avaliar,
     int temperatura_maxima,
     int temperatura_minima
 );
@@ -22,16 +26,20 @@ int main(void) {
     int usuario_digitou_um_numero; 
     int temperaturas_escritas = 0;
     int temperatura;
-    int temperaturas[TEMPERATURAS_A_AVALIAR];
+    int temperaturas_a_avaliar;
+    int temperaturas[MAX_TEMPERATURAS_A_AVALIAR];
     int dia_da_temperatura_maxima;
     int temperatura_maxima_na_semana;
     int temperatura_minima_na_semana;
-
+    
     // Apresentar programa
     apresentar_programa();
 
+    // Perguntar quantas temperaturas o usuario quer avaliar
+    determinar_quantas_temperaturas(&temperaturas_a_avaliar);
+    
     do {
-        printf("👉 Digite a temperatura da entrada %d de %d e aperte Enter: ", temperaturas_escritas + 1, TEMPERATURAS_A_AVALIAR);
+        printf("👉 Digite a temperatura da entrada %d de %d e aperte Enter: ", temperaturas_escritas + 1, temperaturas_a_avaliar);
 
         // scanf devolve 1 se ler corretamente a opcao_escolhida
         usuario_digitou_um_numero = scanf("%i", &temperatura);
@@ -51,11 +59,12 @@ int main(void) {
         
         // atualizar contagem do dia
         temperaturas_escritas++;
-    } while(temperaturas_escritas < TEMPERATURAS_A_AVALIAR);
+    } while(temperaturas_escritas < temperaturas_a_avaliar);
 
     // evaluar temperaturas
     short vezes_temperatura_maxima_atingida = achar_temperatura_maxima(
         temperaturas,
+        temperaturas_a_avaliar,
         &dia_da_temperatura_maxima,
         &temperatura_maxima_na_semana,
         &temperatura_minima_na_semana
@@ -74,6 +83,7 @@ int main(void) {
 
     exibir_grafico_de_linhas(
         temperaturas,
+        temperaturas_a_avaliar,
         temperatura_maxima_na_semana,
         temperatura_minima_na_semana
     );
@@ -90,7 +100,8 @@ int main(void) {
     Return: Número de vezes que a temperatura máxima foi registrada
  */
 short achar_temperatura_maxima(
-    int temperaturas[TEMPERATURAS_A_AVALIAR],
+    int temperaturas[MAX_TEMPERATURAS_A_AVALIAR],
+    int temperaturas_a_avaliar,
     int *dia_da_temperatura_maxima,
     int *temperatura_maxima_na_semana,
     int *temperatura_minima_na_semana
@@ -111,7 +122,7 @@ short achar_temperatura_maxima(
     int primeiro_dia_com_maxima_temperatura;
 
     // percorre todas as temperaturas fornecidas
-    for (int i = 0; i < TEMPERATURAS_A_AVALIAR; i++) {
+    for (int i = 0; i < temperaturas_a_avaliar; i++) {
 
         // verifica se a temperatura atual é maior ou igual ao último máximo relativo
         if (max_realtivo <= temperaturas[i]) {
@@ -147,7 +158,8 @@ short achar_temperatura_maxima(
     desde a máxima até a mínima.
 */
 void exibir_grafico_de_linhas(
-    int temperaturas[TEMPERATURAS_A_AVALIAR],
+    int temperaturas[MAX_TEMPERATURAS_A_AVALIAR],
+    int temperaturas_a_avaliar,
     int temperatura_maxima,
     int temperatura_minima
 ) {
@@ -165,7 +177,7 @@ void exibir_grafico_de_linhas(
         printf("|  ");
 
         // Percorre todas as temperaturas registradas pelo usuário
-        for (int i = 0; i < TEMPERATURAS_A_AVALIAR; i++) {
+        for (int i = 0; i < temperaturas_a_avaliar; i++) {
             // Se a temperatura do dia for exatamente igual ao nível, desenha um ponto
             if (temperaturas[i] == nivel_atual) {
                 printf("●  ");
@@ -188,7 +200,7 @@ void exibir_grafico_de_linhas(
     printf("──────");  
     
     // Cada temperatura ocupa 3 espaços no eixo X
-    for (int i = 0; i < TEMPERATURAS_A_AVALIAR; i++) {
+    for (int i = 0; i < temperaturas_a_avaliar; i++) {
         printf("───");
     }
 
@@ -199,7 +211,7 @@ void exibir_grafico_de_linhas(
 
     // Exibe os numeros dos dias alinhado ao eixo X
     // Adiciona espaço extra para valores menores que 10, mantendo o alinhamento
-    for (int i = 0; i < TEMPERATURAS_A_AVALIAR; i++) {
+    for (int i = 0; i < temperaturas_a_avaliar; i++) {
         printf("%d ", i+1);
         if (i+1 < 10) {
             printf(" ");
@@ -227,4 +239,35 @@ void apresentar_programa(void) {
     printf("\n");
     printf("👋 Bem-vindo ao Temp C! Vamos descobrir a temperatura máxima da semana em graus Celsius 🔥\n");
     printf("\n");
+}
+void determinar_quantas_temperaturas(int *temperaturas_a_avaliar) {
+    int temp;
+
+    while(1) {
+        // Solicita ao usuário o número de temperaturas a avaliar
+        printf("Digite o numero de temperaturas a avaliar (minimo 2 maximo %d): ", MAX_TEMPERATURAS_A_AVALIAR);
+        
+        // Tenta ler a entrada do usuário como um número inteiro
+        if(scanf("%d", &temp) == 1) {
+
+            // Verifica se o valor está dentro do intervalo permitido
+            if(2 <= temp && temp <= MAX_TEMPERATURAS_A_AVALIAR) {
+                break; // tudo OK. saindo do loop
+            }
+
+            // O valor está fora do intervalo
+            else {
+                printf("❌ ERRO: número fora do intervalo.\n");     
+                printf("⚠️ Por favor, digite um número inteiro entre 2 e %d\n", MAX_TEMPERATURAS_A_AVALIAR);     
+            }
+        } else {
+            // A entrada não é um número, limpa o buffer e mostra erro
+            while (getchar() != '\n'); // descarta caracteres inválidos
+            printf("❌ ERRO: só é possível utilizar números.\n");
+            printf("⚠️ Por favor, digite um número inteiro entre 2 e %d\n", MAX_TEMPERATURAS_A_AVALIAR);
+        }    
+    }
+
+    // Armazena o valor informado pelo usuário
+    *temperaturas_a_avaliar = temp;
 }

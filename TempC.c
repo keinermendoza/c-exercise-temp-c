@@ -21,11 +21,10 @@ void exibir_grafico_de_linhas(
 
 void apresentar_programa(void);
 
+void receber_temperaturas(int temperaturas[MAX_TEMPERATURAS_A_AVALIAR], int temperaturas_a_avaliar);
+
 int main(void) {
     // definindo variaveis principais do porgrama
-    int usuario_digitou_um_numero; 
-    int temperaturas_escritas = 0;
-    int temperatura;
     int temperaturas_a_avaliar;
     int temperaturas[MAX_TEMPERATURAS_A_AVALIAR];
     int dia_da_temperatura_maxima;
@@ -38,29 +37,9 @@ int main(void) {
     // Perguntar quantas temperaturas o usuario quer avaliar
     determinar_quantas_temperaturas(&temperaturas_a_avaliar);
     
-    do {
-        printf("👉 Digite a temperatura da entrada %d de %d e aperte Enter: ", temperaturas_escritas + 1, temperaturas_a_avaliar);
-
-        // scanf devolve 1 se ler corretamente a opcao_escolhida
-        usuario_digitou_um_numero = scanf("%i", &temperatura);
-
-        // Limpar buffer usando getchar.
-        while ( getchar() != '\n' );
-
-        // Usuário inseriu caracteres não numéricos.
-        if (usuario_digitou_um_numero != 1) {
-            printf("❌ ERRO: Só é possível utilizar números.\n");
-            printf("⚠️ Por favor, digite um número inteiro\n");
-            continue;
-        }
-
-        // armacenar temperatura
-        temperaturas[temperaturas_escritas] = temperatura;
-        
-        // atualizar contagem do dia
-        temperaturas_escritas++;
-    } while(temperaturas_escritas < temperaturas_a_avaliar);
-
+    // Receber temperaturas do usuario
+    receber_temperaturas(temperaturas, temperaturas_a_avaliar);
+    
     // evaluar temperaturas
     short vezes_temperatura_maxima_atingida = achar_temperatura_maxima(
         temperaturas,
@@ -270,4 +249,34 @@ void determinar_quantas_temperaturas(int *temperaturas_a_avaliar) {
 
     // Armazena o valor informado pelo usuário
     *temperaturas_a_avaliar = temp;
+}
+
+void receber_temperaturas(int temperaturas[MAX_TEMPERATURAS_A_AVALIAR], int temperaturas_a_avaliar) {
+    int temperaturas_escritas = 0;
+    int usuario_digitou_um_numero; 
+    int temperatura;
+
+    do {
+        printf("👉 Digite a temperatura da entrada %d de %d e aperte Enter: ", temperaturas_escritas + 1, temperaturas_a_avaliar);
+
+        // scanf devolve 1 se ler corretamente a opcao_escolhida
+        usuario_digitou_um_numero = scanf("%i", &temperatura);
+
+        // Limpar buffer usando getchar.
+        while ( getchar() != '\n' );
+
+        // Usuário inseriu caracteres não numéricos.
+        if (usuario_digitou_um_numero != 1) {
+            printf("❌ ERRO: Só é possível utilizar números.\n");
+            printf("⚠️ Por favor, digite um número inteiro\n");
+            continue;
+        }
+
+        // armacenar temperatura
+        temperaturas[temperaturas_escritas] = temperatura;
+        
+        // atualizar contagem do dia
+        temperaturas_escritas++;
+    } while(temperaturas_escritas < temperaturas_a_avaliar);
+
 }

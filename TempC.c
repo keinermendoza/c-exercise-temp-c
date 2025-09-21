@@ -23,6 +23,8 @@ void apresentar_programa(void);
 
 void receber_temperaturas(int temperaturas[MAX_TEMPERATURAS_A_AVALIAR], int temperaturas_a_avaliar);
 
+void exibir_analise_de_temperaturas(int temperatura_maxima_na_semana, int vezes_temperatura_maxima_atingida, int dia_da_temperatura_maxima);
+
 int main(void) {
     // definindo variaveis principais do porgrama
     int temperaturas_a_avaliar;
@@ -50,15 +52,7 @@ int main(void) {
     );
 
     // exibir análise de temperaturas
-    printf("\n🌡️✨ Análise das Temperaturas da Semana ✨🌡️\n\n");
-    printf("🔥 A temperatura mais alta da semana foi %d °C.\n", temperatura_maxima_na_semana);
-  
-    if (vezes_temperatura_maxima_atingida > 1) {
-        printf("✨ Ela apareceu %d vezes ao longo da semana.\n", vezes_temperatura_maxima_atingida);
-        printf("📅 A primeira vez aconteceu no dia %d.\n", dia_da_temperatura_maxima);
-    } else {
-        printf("📅 Ela ocorreu no dia %d.\n", dia_da_temperatura_maxima);
-    }
+    exibir_analise_de_temperaturas(temperatura_maxima_na_semana, vezes_temperatura_maxima_atingida, dia_da_temperatura_maxima);
 
     exibir_grafico_de_linhas(
         temperaturas,
@@ -279,4 +273,16 @@ void receber_temperaturas(int temperaturas[MAX_TEMPERATURAS_A_AVALIAR], int temp
         temperaturas_escritas++;
     } while(temperaturas_escritas < temperaturas_a_avaliar);
 
+}
+
+void exibir_analise_de_temperaturas(int temperatura_maxima_na_semana, int vezes_temperatura_maxima_atingida, int dia_da_temperatura_maxima) {
+    printf("\n🌡️✨ Análise das Temperaturas da Semana ✨🌡️\n\n");
+    printf("🔥 A temperatura mais alta da semana foi %d °C.\n", temperatura_maxima_na_semana);
+    
+    if (vezes_temperatura_maxima_atingida > 1) {
+        printf("✨ Ela apareceu %d vezes ao longo da semana.\n", vezes_temperatura_maxima_atingida);
+        printf("📅 A primeira vez aconteceu no dia %d.\n", dia_da_temperatura_maxima);
+    } else {
+        printf("📅 Ela ocorreu no dia %d.\n", dia_da_temperatura_maxima);
+    }
 }

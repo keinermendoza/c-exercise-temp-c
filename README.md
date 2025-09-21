@@ -1,8 +1,8 @@
 # Temp C (C)
+Este programa de terminal, desenvolvido em C, solicita ao usuário a quantidade de temperaturas que deseja avaliar e, em seguida, pede a digitação de cada valor em graus Celsius.
 
-Este programa de terminal, desenvolvido em **C**, identifica qual foi o dia da semana com a maior temperatura registrada e qual foi esse valor em graus Celsius.  
-
-Ao finalizar a execução, o programa apresenta um resumo com essas informações e também exibe um gráfico com as temperaturas diárias da semana.
+Ao finalizar a execução, o programa identifica a maior temperatura registrada, informa em qual posição da sequência (dia) ela ocorreu e apresenta um resumo com esses dados.
+Além disso, exibe um gráfico representando todas as temperaturas informadas pelo usuário.
 
 ---
 

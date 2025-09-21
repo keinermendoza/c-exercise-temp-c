@@ -136,61 +136,32 @@ void exibir_grafico_de_linhas(
     int temperatura_maxima,
     int temperatura_minima
 ) {
-    printf("\n📈 Gráfico das Temperaturas Máximas da Semana ✨\n\n");
-    // Legenda do eixo Y (temperatura em °C)
-    printf("°C\n"); 
-    for (int nivel_atual = temperatura_maxima; nivel_atual >= temperatura_minima; nivel_atual--) {
-        
-        // Exibe o valor da temperatura atual (nível) alinhado ao eixo Y
-        // Adiciona espaço extra para valores menores que 10, mantendo o alinhamento
-        if (nivel_atual < 10) {
-            printf(" ");
+    printf("\n📈 Gráfico das Temperaturas ✨\n\n");
+    for (int i = 0; i < temperaturas_a_avaliar; i++) {
+        printf("Dia ");
+        // Adiciona um 0 para dias menores que 10, mantendo o alinhamento
+        if (i < 10) {
+            printf("0");
         } 
-        printf("%d ", nivel_atual);
-        printf("|  ");
+        // exibe dia
+        printf("%d: ", i + 1);
 
-        // Percorre todas as temperaturas registradas pelo usuário
-        for (int i = 0; i < temperaturas_a_avaliar; i++) {
-            // Se a temperatura do dia for exatamente igual ao nível, desenha um ponto
-            if (temperaturas[i] == nivel_atual) {
-                printf("●  ");
-            } 
-            // Se a temperatura for maior que o nível atual, desenha uma linha vertical
-            else if (temperaturas[i] > nivel_atual) {
-                printf("│  ");  
-            } 
-            // Caso contrário, apenas deixa o espaço em branco
-            else {
-                printf("   ");  
-            }
-        }
+        // Adiciona um 0 para temperaturas de 0 a 9 grados, mantendo o alinhamento
+        if (temperaturas[i] >= 0 && temperaturas[i] < 10) {
+            printf("0");
+        } 
 
-        // Depois de avaliar todas as temperaturas nesse nível, passa para o próximo (linha abaixo)
+        // exibe a temperatura do dia
+        printf("%d ", temperaturas[i]);
+
+        // exibe linha da temperatura, um '#' por cada grado
+        for (int j = 0; j < temperaturas[i]; j++) printf("#");
+
+        // exibe os dias com temperatura maxima e minima so final da linha
+        if (temperaturas[i] == temperatura_maxima) printf(" (Max)");
+        else if (temperaturas[i] == temperatura_minima) printf(" (Min)");
         printf("\n");
     }
-
-    // Linha horizontal do eixo X (base do gráfico)
-    printf("──────");  
-    
-    // Cada temperatura ocupa 3 espaços no eixo X
-    for (int i = 0; i < temperaturas_a_avaliar; i++) {
-        printf("───");
-    }
-
-    printf("\n");
-    
-    // Legenda do eixo X (dias)
-    printf("dias  ");
-
-    // Exibe os numeros dos dias alinhado ao eixo X
-    // Adiciona espaço extra para valores menores que 10, mantendo o alinhamento
-    for (int i = 0; i < temperaturas_a_avaliar; i++) {
-        printf("%d ", i+1);
-        if (i+1 < 10) {
-            printf(" ");
-        }
-    }
-    printf("\n");
 }
 
 /* gerado a partir do site https://patorjk.com/software/taag/

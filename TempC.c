@@ -140,7 +140,7 @@ void exibir_grafico_de_linhas(
     for (int i = 0; i < temperaturas_a_avaliar; i++) {
         printf("Dia ");
         // Adiciona um 0 para dias menores que 10, mantendo o alinhamento
-        if (i < 10) {
+        if (i + 1 < 10) {
             printf("0");
         } 
         // exibe dia
